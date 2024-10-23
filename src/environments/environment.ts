@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // baseUrl: "http://127.0.0.1:5001/ok-doutor-agendamentos-dev/southamerica-east1/api/v1",
-  baseUrl: "https://southamerica-east1-ok-doutor-agendamentos-dev.cloudfunctions.net/api/v1",
+  baseUrl: "https://southamerica-east1-ok-doutor-agendamentos.cloudfunctions.net/api/v1",
   baseUrlOkDoutor: "https://southamerica-east1-cartao-tudo-ok-dev-7dbbb.cloudfunctions.net/api/v1",
   okDoutorWeb: "cartao-tudo-ok-homol.web.app"
 };
