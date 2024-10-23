@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "public": "public",
+    "site": "ok-doutor-agendamentos-dev",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

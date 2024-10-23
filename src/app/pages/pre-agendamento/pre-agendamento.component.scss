@@ -1,0 +1,62 @@
+// only for mobile
+@media (max-width: 576px) {
+    .section-agendamento {
+        padding: 0 10px !important;
+    }
+
+    .dropcity .p-dropdown {
+        width: 100% !important;
+    }
+
+    // .botoes-filtro .p-button{
+    //     width: 90% !important;
+    // }
+    .badge-div span {
+        top: -20% !important;
+    }
+
+    .section-agendamento {
+        margin-bottom: 16vh;
+    }
+}
+
+.p-dropdown {
+    min-width: 219px !important;
+}
+
+.cardPrecos{
+  position: fixed;
+  top:342px;
+  right: 10px;
+}
+
+// @media < 1500px
+@media ((max-width: 1500px) and (min-width: 992px)) {
+    .day-card{
+        width: 5vw !important;
+    }
+}
+
+.custom-toast {
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro com transparência */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-toast-content {
+  z-index: 10000;
+}
+
+
+
+
+.p-carousel-items-container{
+    gap: 0.5rem;
+}

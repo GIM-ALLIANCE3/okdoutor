@@ -1,0 +1,50 @@
+<router-outlet></router-outlet>
+
+<div *ngIf="isLoading" class="loading">
+    <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+</div>
+
+@if(isNotify){
+<div class="loading"></div>
+}
+<p-toast key="block2" [preventOpenDuplicates]="true" [position]="'center'" class="bg-white" [life]="99999">
+    <ng-template let-message pTemplate="message">
+        <div class="flex align-items-start flex-1 align-self-center bg-white p-3">
+            <div class="ml-3 bg-white">
+                <span class="text-xl font-medium text-900">{{message.summary}}</span>
+                <p class="text-600 mt-2 mb-3">{{message.detail}}</p>
+                @if (message.redirect) {
+                <button type="button" pButton pRipple class="p-button-sm mr-2" label="OK" (click)="clear('block2')"
+                    routerLink="{{message.redirect || ''}}"></button>
+                }
+                @else {
+                <button type="button" pButton pRipple class="p-button-sm mr-2" label="OK"
+                    (click)="clear('block2')"></button>
+                }
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+
+<p-toast key="confirmNotification" [preventOpenDuplicates]="true" [position]="'center'" class="bg-white" [life]="99999">
+    <ng-template let-message pTemplate="message">
+        <div class="flex align-items-start flex-1 align-self-center bg-white p-3">
+            <div class="ml-3 bg-white">
+                <span class="text-xl font-medium text-900">{{message.summary}}</span>
+                <p class="text-600 mt-2 mb-3">{{message.detail}}</p>
+                @if (message.redirect) {
+                <button type="button" pButton pRipple class="p-button-sm mr-2" label="OK"
+                    (click)="clear('confirmNotification'); goToUrl('message.redirect')"></button>
+                }
+                @else {
+                <button type="button" pButton pRipple class="p-button-sm mr-2" label="OK"
+                    (click)="clear('confirmNotification')"></button>
+                }
+                <button type="button" pButton pRipple class="p-button-sm mr-2" label="Cancelar"
+                    (click)="clear('confirmNotification')"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+
+<p-confirmDialog></p-confirmDialog>

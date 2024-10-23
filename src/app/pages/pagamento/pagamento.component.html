@@ -1,0 +1,251 @@
+<head class="w-full flex justify-content-center flex-column lg:flex-row px-3 my-3">
+    <button (click)="step === '0' ? goToMySchedules() : step = '0'"
+        class="p-button p-component p-button-outlined p-button-rounded text-indigo-700 mr-auto h-min">
+        <i class="pi pi-arrow-left"></i>
+    </button>
+</head>
+
+<section class="flex w-full h-full justify-content-center flex-column align-items-center px-3" *ngIf="step === '0'">
+
+    <h1 class="font-bold p-0 m-0 text-center">Pagamento</h1>
+    <span class="block my-2 text-center"><b>Quase lá!</b> Escolha a melhor forma de pagamento para o seu
+        atendimento</span>
+
+    <div class="my-4 md:w-9 flex-column flex gap-5 justify-content-center align-items-center">
+        <p-card
+            (click)="valor = assinatura ? object.proCartao.Precos[1].PrecoProduto : object.proOnline.Precos[1].PrecoProduto; confirm($event)"
+            class="md:w-9 cursor-pointer hover:shadow-7">
+            <div>
+                <div class="flex w-full justify-content-center align-items-center gap-2">
+                    <img src="assets/images/outlined-card.svg" alt="">
+                    <span class="font-bold">Crédito</span>
+                </div>
+                <div class="text-start my-3 flex flex-column align-items-center">
+                    <span class="block">Até <b>6x</b> de <b>
+                            {{getInstalmentsValue(6,object.proOnline.Precos[1].PrecoProduto) | valorBr}}</b> | Total <b>
+                            {{arredondamentoFinal(object.proOnline.Precos[1].PrecoProduto, 6) | valorBr}}</b></span>
+                    <span class="block">Até <b>6x</b> de <b>
+                            {{getInstalmentsValue(6,object.proCartao.Precos[1].PrecoProduto) | valorBr}}</b> | Total <b>
+                            {{arredondamentoFinal(object.proCartao.Precos[1].PrecoProduto, 6) | valorBr}}</b> no Cartão
+                        tudook!</span>
+                </div>
+            </div>
+        </p-card>
+
+        <p-card class="w-full md:w-9 cursor-pointer hover:shadow-7" (click)="step = 'pix'; fazerPagamento(true)">
+            <div>
+                <div class="flex w-full justify-content-center align-items-center gap-2">
+                    <img src="assets/images/outlined-pix.svg" alt="">
+                    <span class="font-bold">Pix</span>
+                </div>
+                <span class="block text-center mt-3">Total <b>
+                        {{PixValue | valorBr}}</b></span>
+            </div>
+        </p-card>
+
+        <h1 class="font-bold p-0 m-0 text-center">Resumo do agendamento</h1>
+
+        <p-card class="md:w-9">
+
+            <div class="flex w-full justify-content-between">
+                <span class="font-bold">CONSULTA</span>
+            </div>
+
+            <h1 class="p-0 m-0 font-medium">{{object.NomeRecurso}}</h1>
+            <span class="block">{{object.medico.name | doutor:object.medico.crm | async}}</span>
+
+            <div class="flex align-items-center gap-2 mt-3">
+                <span class="font-bold">
+                    PACIENTE
+                </span>
+                <p-badge [style]="{background: '#1f3267', 'border-radius': '1rem', 'padding': '0 0.8rem'}"
+                    [value]="user.userData?.nome"></p-badge>
+            </div>
+
+            <!-- <h1 class="p-0 m-0 font-medium">{{user.userData?.nome}}</h1> -->
+            <span>CPF: {{user.userData?.cpf}}</span>
+
+            <div class="my-3">
+                <span class="font-bold">CLÍNICA</span>
+                <h1 class="block font-medium m-0 p-0">{{object.clinica.name}}</h1>
+                <span>{{object.clinica.name === 'AV. CAXANGÁ' ? 'Av. Caxangá, 2351 - Cordeiro, Recife - PE, 50721-000' :
+                    'Av. Recife, 712 - Areias, Recife - PE, 50110-727'}}</span>
+            </div>
+
+            <div class="my-3">
+                <h1 class="block font-medium">Informações</h1>
+                <span>Vestibulum dapibus egestas erat. Etiam quis tellus non enim pellentesque imperdiet. Maecenas a
+                    urna at
+                    lorem gravida pellentesque sit amet at lacus.</span>
+            </div>
+
+
+            <div class="flex justify-content-between my-3">
+                <div>
+                    <span class="font-bold block">DATA</span>
+                    <h1>{{object.horario.dataFormatada}}</h1>
+                </div>
+
+                <div>
+                    <span class="font-bold block">HORA</span>
+                    <h1>{{object.horario.formatedHour}}H</h1>
+                </div>
+            </div>
+        </p-card>
+
+        <p-card class="hover:shadow-7 cursor-pointer md:w-9 w-full" (click)="visible = true">
+            <div class="w-full text-center h-min">
+                <span class="font-bold block">Mais informações</span>
+            </div>
+        </p-card>
+    </div>
+</section>
+
+<section
+    class="flex w-full h-full justify-content-center flex-column align-items-center px-3 animate__fadeIn animate__animated"
+    *ngIf="step === 'cartão'">
+
+    <form action="" [formGroup]="cardForm" class="md:w-9">
+        <div class="flex flex-column gap-2 mb-3">
+            <label htmlFor="cardNumber" class="font-bold">Número do cartão</label>
+            <p-inputMask mask="9999 9999 9999 9999" formControlName="CardNumber"
+                placeholder="0000 0000 0000 0000"></p-inputMask>
+            <small class="text-red-500"
+                *ngIf="cardForm.get('CardNumber')?.invalid && cardForm.get('CardNumber')?.touched">Campo
+                obrigatório</small>
+        </div>
+
+        <div class="flex flex-column gap-2 mb-3">
+            <label htmlFor="cardName" class="font-bold">Nome do titular no cartão (como está impresso)</label>
+            <input pInputText id="cardName" formControlName="Holder" placeholder="Digitar nome" />
+            <small class="text-red-500" *ngIf="cardForm.get('Holder')?.invalid && cardForm.get('Holder')?.touched">Campo
+                obrigatório</small>
+        </div>
+
+        <div class="flex flex-column md:flex-row w-full md:gap-4">
+            <div class="flex flex-column gap-2 mb-3 w-full">
+                <label htmlFor="cardDate" class="font-bold">Validade</label>
+                <p-inputMask mask="99/9999" formControlName="ExpirationDate" placeholder="mm/aaaa"></p-inputMask>
+                <small class="text-red-500"
+                    *ngIf="cardForm.get('ExpirationDate')?.invalid && cardForm.get('ExpirationDate')?.touched && !cardForm.get('ExpirationDate')?.errors?.['cardDate']">Campo
+                    obrigatório</small>
+                <small class="text-red-500"
+                    *ngIf="cardForm.get('ExpirationDate')?.invalid && cardForm.get('ExpirationDate')?.touched && cardForm.get('ExpirationDate')?.errors?.['cardDate']">Data
+                    inválida</small>
+            </div>
+            <div class="flex flex-column gap-2 mb-3 w-full">
+                <label htmlFor="cardCVV" class="font-bold">CVV/CVC</label>
+                <p-inputMask mask="999" formControlName="SecurityCode" placeholder="000"></p-inputMask>
+                <small class="text-red-500"
+                    *ngIf="cardForm.get('SecurityCode')?.invalid && cardForm.get('SecurityCode')?.touched">Campo
+                    obrigatório</small>
+            </div>
+        </div>
+
+        <div class="w-full border-round-3xl shadow-2 mb-3">
+            <div class="border-round-top-3xl bg-gray-600 text-white text-center py-2">
+                <span class="font-bold">Selecione a parcela</span>
+            </div>
+
+            <div class="py-3">
+                @for (item of [0,1,2,3,4,5]; track $index) {
+                <div class="flex gap-3 w-full justify-content-center">
+                    <p-radioButton formControlName="instalments" [value]="$index + 1"></p-radioButton>
+                    <label class="instalmentsLabel" for="instalments"><b>{{$index + 1}}x</b> de <b>
+                            {{getInstalmentsValue($index+1, valor) | valorBr}} |</b> Total: <b>
+                            {{arredondamentoFinal(assinatura ? object.proCartao.Precos[1].PrecoProduto :
+                            object.proOnline.Precos[1].PrecoProduto, $index+1) | valorBr}}</b></label>
+                </div>
+                <p-divider class="my-3"></p-divider>
+                }
+            </div>
+        </div>
+
+        <button (click)="fazerPagamento()" [disabled]="cardForm.invalid" pButton pRipple label="Pagar"
+            class="text-white bg-gray-400 border-0 border-round-2xl hover:surface-200 w-full"></button>
+    </form>
+</section>
+
+<section
+    class="flex w-full h-full justify-content-center flex-column align-items-center px-3 animate__fadeIn animate__animated"
+    *ngIf="step === 'pix'">
+    <div class="flex md:w-9 h-full justify-content-center flex-column align-items-center px-3">
+
+        <h1 class="font-bold p-0 m-0 text-center">Pagamento</h1>
+        <span class="block my-2 text-center"><b>Quase lá!</b> Escolha a melhor forma de pagamento para o seu
+            atendimento</span>
+
+        <div class="w-full border-round-3xl shadow-2 mb-3 pb-4">
+            <div class="border-round-top-3xl bg-gray-600 text-white text-center py-2">
+                <div class="flex gap-3 justify-content-center">
+                    <img src="assets/images/outlined-pix.svg" alt="">
+                    <span class="font-bold">Pix</span>
+                </div>
+                <span>Verifique o tempo disponível para o pagamento</span>
+            </div>
+            <div class="p-3">
+                <span class="text-center w-full block my-2">Total <b>{{PixValue | valorBr}}</b></span>
+                <p-divider></p-divider>
+                <div
+                    class="w-full flex justify-content-center align-items-center md:justify-content-between flex-column md:flex-row gap-3">
+                    <div>
+                        <span class="block">Disponivel até</span>
+                        <b class="block">Hoje, as 15:39</b>
+                    </div>
+
+                    <div
+                        class="border-round-2xl border-1 border-indigo-700 p-2 px-4 text-indigo-700 flex justify-content-center align-items-center hover:surface-100">
+                        <span>0:31.00000000000000004:36</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-content-center flex-column align-items-center gap-3 px-3">
+                <h3 class="font-bold block">Leia o QR code com o app da sua instituição</h3>
+
+                <img [src]="pixImage" width="400px" alt="">
+
+                <h3 class="block">Ficou alguma dúvida?</h3>
+
+                <h3 class="font-bold block">Saiba mais</h3>
+                <span>ou</span>
+                <h3 class="font-bold block">Copie seu código:</h3>
+
+                <span>{{qrCodeText}}</span>
+
+                <p-progressSpinner></p-progressSpinner>
+
+                <h3 class="font-bold block">Aguardando pagamento...</h3>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<p-dialog [(visible)]="visible" [responsive]="true" [breakpoints]="{ '2000px': '85vw' }">
+    <div>
+        <h1 class="font-bold p-0 m-0 text-center">Orientações</h1>
+        <p-divider></p-divider>
+
+        <span class="md:px-4 block text-justify">
+            Recomendamos aos pacientes chegar com 20min de antecedência do horário agendado para garantir o atendimento
+            por hora prevista; No caso de haver necessidade de retorno, definido pelo médico, a consulta de retorno deve
+            ser feita em no máximo 30 dias após a consulta inicial. Pode agendar através dos canais: clinicasim.com,
+            chat online no aplicativo, whatsapp ou telefone 0800-357-6060. Lembrando que os agendamentos de consultas de
+            retorno devem ser realizados o mais breve possível, pois o prazo depende dos dias disponíveis para
+            atendimento do médico na unidade SiM onde a consulta inicial foi realizada. Atenção: As especialidades de
+            Fonoaudiologia, Psicologia, Psiquiatria e Pré Natal, assim como agendas com valores diferenciados (R$ 30,00
+            e R$45,00), não possuem o benefício do retorno gratuito; O Retorno das consultas de pediatria para pacientes
+            de até 1 (um) ano de idade só serão agendados após solicitação expressa do médico ao time da unidade onde
+            ocorreu a consulta.
+        </span>
+
+        <div class="w-full justify-content-center align-items-center my-3 flex">
+            <button pButton pRipple label="Ok, entendi."
+                class="text-white bg-gray-400 border-0 border-round-3xl hover:surface-200 w-14rem"
+                (click)="visible = false"></button>
+        </div>
+    </div>
+
+</p-dialog>

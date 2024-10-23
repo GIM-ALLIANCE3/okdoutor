@@ -1,0 +1,23 @@
+.tela-inicial {
+    background-image: url(/assets/images/bg-agendamento.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+// only for mobile
+@media (max-width: 576px) {
+    .tela-inicial {
+        background-image: none;
+        background-color: #31427b;
+        justify-content: start !important;
+    }
+
+    .p-3{
+        padding: 8px !important;
+    }
+}
+
+.homeFooter{
+    background-color: #112450;
+}

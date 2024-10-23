@@ -1,0 +1,63 @@
+<section class="flex flex-column w-screen justify-content-center align-items-center p-5 tela-inicial" style="height: 92.3vh;">
+    <h1 class="text-white" style="text-shadow: 1px 1px 1px #000;">
+        Sua saúde não pode esperar na fila
+    </h1>
+
+    <p class="text-white" style="text-shadow: 1px 1px 1px #000;">
+        Encontre consultas e exames para hoje, com médicos de qualidade e preços que cabem no seu bolso.
+    </p>
+
+    <div>
+        <div class="grid">
+            <div routerLink="/consultas" (click)="setBeforePage('/consultas')" class="col-12 lg:col-4 p-3 cursor-pointer lg:w-20rem">
+                <div
+                    class="hover:surface-100 p-3 border-round-2xl shadow-2 flex align-items-center surface-card justify-content-between gap-2">
+                    <div style="height:48px;border-radius:10px"
+                        class="inline-flex align-items-center justify-content-center w-min">
+                        <img src="assets/images/icons/cross.svg" width="30px" alt="" srcset="">
+                    </div>
+                    <div class="">
+                        <span class="text-900 text font-medium mb-2">Consultas</span>
+                    </div>
+                    <div>
+                        <i class="pi pi-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div routerLink="/exames" (click)="setBeforePage('/exames')" class="col-12 lg:col-4 p-3 cursor-pointer lg:w-20rem">
+                <div
+                    class="hover:surface-100 p-3 border-round-2xl shadow-2 flex align-items-center surface-card justify-content-between gap-2">
+                    <div style="width:48px;height:48px;border-radius:10px"
+                        class="inline-flex align-items-center justify-content-center">
+                        <img src="assets/images/icons/test_tube.svg" width="30px" alt="" srcset="">
+                    </div>
+                    <div>
+                        <span class="text-900 text font-medium mb-2">Exames</span>
+                    </div>
+                    <div>
+                        <i class="pi pi-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div routerLink="/medicos-e-especialistas" (click)="setBeforePage('/medicos-e-especialistas')" class="col-12 lg:col-4 p-3 cursor-pointer lg:w-20rem">
+                <div
+                    class="hover:surface-100 p-3 border-round-2xl shadow-2 flex align-items-center surface-card justify-content-between gap-2">
+                    <div style="width:48px;height:48px;border-radius:10px"
+                        class="inline-flex align-items-center justify-content-center">
+                        <img src="assets/images/icons/Stethoscope.svg" width="30px" alt="" srcset="">
+                    </div>
+                    <div>
+                        <span class="text-900 text font-medium mb-2">Médicos e especialistas</span>
+                    </div>
+                    <div>
+                        <i class="pi pi-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="homeFooter block md:hidden py-3 w-screen flex justify-content-center align-items-center fixed bottom-0">
+    <img src="assets/images/logo_rodape.svg" alt="Image" height="40" class="mr-0">
+</section>

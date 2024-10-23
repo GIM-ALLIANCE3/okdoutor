@@ -1,0 +1,81 @@
+<div class="log">
+    <div class="form col-md-7 mx-auto">
+        <header>
+        </header>
+        <form class="form__content" [formGroup]="loginForm">
+            <h1>Entre com sua conta</h1>
+            <p-card styleClass="cardLogin border-round-2xl mb-3">
+                <span class="p-input-icon-left w-full mb-3">
+                    <i class="pi pi-user"></i>
+                    <input type="text" [style]="{'width': '100%', 'border-radius': '1rem'}" placeholder="Email" pInputText formControlName="email" />
+                </span>
+
+                <span class="p-input-icon-left w-full password-input mb-3">
+                    <i class="pi pi-lock z-1"></i>
+                    <p-password [toggleMask]="true" formControlName="password" [style]="{'width': '100%', 'border-radius': '1rem'}" placeholder="Senha" [feedback]="false"></p-password>
+                </span>
+
+                <div class="w-full flex justify-content-center align-items-center mb-3">
+                    <button (click)="login()" pButton pRipple label="Entrar"
+                        class="w-full text-white bg-indigo-700 border-0 border-round-2xl"></button>
+                </div>
+
+                <a (click)="display = true" class="text-center w-full block cursor-pointer text-blue-300">Esqueci minha senha</a>
+            </p-card>
+
+            <span routerLink="cadastro" class="block w-full text-center">Não possui conta? <a routerLink="/cadastro">Crie aqui!</a></span>
+        </form>
+    </div>
+    <div class="cta">
+
+    </div>
+</div>
+
+<p-dialog header="Informe seu e-mail" styleClass="modalAlert" [(visible)]="display" (onHide)="closeModal()" [modal]="true" [draggable]="false"
+    [resizable]="false">
+    <form [formGroup]="emailRecForm">
+        <div class="md:col-12">
+            <input pStyleClass="w-100" class="form-control w-100" type="email" placeholder="E-mail" pInputText formControlName="email">
+        </div>
+        <div class="flex gap-2 mt-3 p-2 justify-content-between">
+            <div class="col-lg-6">
+                <button style="white-space: nowrap;" pButton pRipple type="button submit" label="Recuperar Senha" class="p-button-login"
+                    (click)="recuperasenha()"></button>
+            </div>
+            <div class="col-lg-6">
+                <button pButton pRipple type="button" label="Cancelar"
+                    class="p-button-raised p-button-danger p-button-cancel" (click)="display=false"></button>
+            </div>
+        </div>
+    </form>
+
+</p-dialog>
+
+<!-- <p-dialog header="Atenção!" [style]="{'min-width': '22vw'}" styleClass="modalAlert" [(visible)]="modal" [modal]="true"
+    [draggable]="false" [resizable]="false">
+    <p class="text-center w-100">Usuário ou senha incorretos</p>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple type="button" label="Ok" class="p-button-next p-button-rounded p-button-secondary"
+            (click)="modal=false"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Informe seu e-mail" styleClass="modalAlert" (onHide)="closeModal()" [(visible)]="ModalPrimeiroAcesso" [modal]="true" [draggable]="false"
+    [resizable]="false">
+    <form [formGroup]="NewUserEmailForm">
+        <div class="md:col-12">
+            <input class="form-control" type="email" placeholder="E-mail" pInputText formControlName="email">
+        </div>
+        <div class="row mt-3 p-2">
+            <div class="col-lg-6">
+                <button pButton pRipple type="button submit" label="Enviar" class="p-button-login"
+                (click)="ModalPrimeiroAcesso=false" (click)="postEmail()"></button>
+            </div>
+            <div class="col-lg-6">
+                <button pButton pRipple type="button" label="Cancelar"
+                    class="p-button-raised p-button-danger p-button-cancel" (click)="ModalPrimeiroAcesso=false"></button>
+            </div>
+        </div>
+    </form>
+
+</p-dialog> -->

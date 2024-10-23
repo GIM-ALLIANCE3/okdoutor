@@ -1,0 +1,56 @@
+<div class="flex w-100 justify-content-between align-items-center flex-wrap">
+    <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" placeholder="pesquisar por CRM" pInputText (keyup)="pesquisar()" [(ngModel)]="pesquisa" />
+    </span>
+
+    <button (click)="display = true; update = false" pButton pRipple icon="pi pi-plus" iconPos="right" label="Novo"
+        class="p-button-rounded p-button-success"></button>
+</div>
+
+<div>
+    <p-table [paginator]="true" [rows]="10" [value]="filteredMedicos" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>CRM</th>
+                <th>Título de tratamento</th>
+                <th>Mini-Currículo</th>
+                <th>Ações</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-medic>
+            <tr class="cursor-pointer">
+                <td (click)="selectMedico(medic); display = true;">{{ medic.crm }}</td>
+                <td (click)="selectMedico(medic); display = true;">{{ medic.title || "--" }}</td>
+                <td (click)="selectMedico(medic); display = true">
+                    <div [innerHTML]="medic.description"></div>
+                </td>
+                <td>
+                    <p-button (onClick)="deleteMedico(medic.id)" severity="danger" icon="pi pi-trash" iconPos="right" label="Excluir"
+                        class="p-button-rounded p-button-danger"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="display" [style]="{width: '50vw'}" [header]="update ? 'Atualizar' : 'Novo' + ' Médico'">
+    <div class="flex gap-2 flex-column">
+        <div>
+            <label for="" class="block">CRM</label>
+            <input placeholder="CRM" [style]="{ width: '100px' }" pInputText [(ngModel)]="crm" />
+        </div>
+        <div>
+            <label for="" class="block">Mini-Currículo</label>
+            <p-editor [(ngModel)]="description" [style]="{ height: '320px' }"></p-editor>
+        </div>
+        <div>
+            <label for="" class="block">Título de tratamento</label>
+            <p-dropdown appendTo="body" [options]="['Dr.', 'Dra.']" [(ngModel)]="title" styleClass="w-100"></p-dropdown>
+        </div>
+        <p-button (onClick)="update ? updateMedico() : createMedico()"
+            [disabled]="(!crm || crm.length <= 0 || !description || description.length <= 0)" [label]="update ? 'Atualizar' : 'Salvar'"
+            class="p-button-success"></p-button>
+    </div>
+
+</p-dialog>

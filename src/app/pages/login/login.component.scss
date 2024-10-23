@@ -1,0 +1,432 @@
+h1 {
+    margin-bottom: 1.3rem;
+    color: #707070;
+    text-align: center;
+    opacity: 1;
+}
+
+:host ::ng-deep .cardLogin {
+    border-radius: 13px;
+    box-shadow: 0px 3px 6px #00000029;
+}
+
+:host ::ng-deep .cardLogin .p-card-body {
+    padding: 0.5rem 1rem;
+}
+
+:host ::ng-deep .p-card-content {
+    padding: 1rem 0 0;
+}
+
+.log {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 2rem 0;
+
+}
+
+header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.form__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+}
+
+.cta {
+    background-image: url(/assets/images/tela-login.png);
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+:host ::ng-deep .pi-user {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.8rem;
+}
+
+.form-floating>.form-control {
+    padding: 0.4rem 1.8rem;
+    height: 3.1rem;
+    border-radius: 9px;
+}
+
+.form-floating>label {
+    top: 0.3rem;
+    left: 1rem;
+    height: auto;
+    padding: 0.22rem 0.8rem;
+    color: #161615;
+    opacity: 1;
+}
+
+:host ::ng-deep .pi-lock {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.6rem;
+}
+
+:host ::ng-deep .p-button-login {
+    width: 100%;
+    height: 2.3rem;
+    border-color: #1F3267;
+    border-radius: 9px;
+    background: #1F3267;
+}
+
+:host ::ng-deep .p-button-cancel.p-button-danger {
+    background-color: #FF3030;
+    border-color: #FF3030;
+    width: 100%;
+    height: 2.3rem;
+    border-radius: 9px;
+    box-shadow: none;
+}
+
+:host ::ng-deep .p-button-login:enabled:hover {
+    background: #08194af2;
+    border-color: #08194af2;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer .p-button-next {
+    background: #08194af2;
+    border-color: #08194af2;
+    border-radius: 10px;
+    height: 2.5rem;
+    width: 9rem;
+}
+
+.msgPassword {
+    text-align: center;
+    color: #4C9DD9;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.icon-password {
+    position: absolute;
+    left: 92%;
+    top: 0.8rem;
+    cursor: pointer;
+}
+
+:host ::ng-deep .p-dialog {
+    width: 25rem;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-title {
+    margin: 0 auto;
+}
+
+/* Responsive Breakpoints */
+@media screen and (max-width: 578px) {
+    .log {
+        display: grid;
+    }
+
+    .form {
+        margin: 0;
+    }
+
+    .cta {
+        height: 60vh;
+    }
+
+    :host ::ng-deep .p-button-login {
+        margin-bottom: 0.5rem;
+        ;
+    }
+}
+
+@media screen and (min-width: 1290px) {
+    .log {
+        flex-direction: row;
+        height: 100vh;
+    }
+
+    .form {
+        margin: 0;
+        box-shadow: none;
+    }
+
+    .form__content {
+        width: 26rem;
+    }
+
+}
+
+@media (min-width: 72rem) {
+    .form__content {
+        width: 40rem;
+        padding: 5.4rem 4rem;
+
+    }
+}
+
+h1 {
+    margin-bottom: 1.3rem;
+    color: #707070;
+    text-align: center;
+    opacity: 1;
+}
+
+:host ::ng-deep .cardLogin {
+    border-radius: 13px;
+    box-shadow: 0px 3px 6px #00000029;
+}
+
+:host ::ng-deep .cardLogin .p-card-body {
+    padding: 0.5rem 1rem;
+}
+
+:host ::ng-deep .p-card-content {
+    padding: 1rem 0 0;
+}
+
+.log {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 2rem 0;
+
+}
+
+header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.form__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+}
+
+.cta {
+    background-image: url(/assets/images/bg-login.png);
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+:host ::ng-deep .pi-user {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.8rem;
+}
+
+.form-floating>.form-control {
+    padding: 0.4rem 1.8rem;
+    height: 3.1rem;
+    border-radius: 9px;
+}
+
+.form-floating>label {
+    top: 0.3rem;
+    left: 1rem;
+    height: auto;
+    padding: 0.22rem 0.8rem;
+    color: #161615;
+    opacity: 1;
+}
+
+:host ::ng-deep .pi-lock {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.6rem;
+}
+
+.btn-login {
+    display: flex;
+    justify-content: space-between;
+}
+
+:host ::ng-deep .p-button-primary-access,
+:host ::ng-deep .p-button-login {
+    width: 100%;
+    height: 2.3rem;
+    border-radius: 9px;
+}
+
+:host ::ng-deep .p-button-primary-access {
+    border: 1px solid #1F3267;
+    background: #fff;
+    color: #1F3267;
+}
+
+:host ::ng-deep .p-button-primary-access:enabled:hover {
+    background: #f8faff;
+    color: #1F3267;
+    transition: .5s;
+
+}
+
+:host ::ng-deep .p-button-login {
+    border-color: #1F3267;
+    background: #1F3267;
+}
+
+:host ::ng-deep .p-button-cancel.p-button-danger {
+    background-color: #FF3030;
+    border-color: #FF3030;
+    width: 100%;
+    height: 2.3rem;
+    border-radius: 9px;
+    box-shadow: none;
+}
+
+:host ::ng-deep .p-button-login:enabled:hover {
+    background: #08194af2;
+    border-color: #08194af2;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer .p-button-next {
+    background: #08194af2;
+    border-color: #08194af2;
+    border-radius: 10px;
+    height: 2.5rem;
+    width: 9rem;
+}
+
+.msgPassword {
+    text-align: center;
+    color: #4C9DD9;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.icon-password {
+    position: absolute;
+    left: 92%;
+    top: 0.8rem;
+    cursor: pointer;
+}
+
+:host ::ng-deep .p-dialog {
+    width: 25rem;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-title {
+    margin: 0 auto;
+}
+
+/* Responsive Breakpoints */
+@media screen and (max-width: 578px) {
+    .log {
+        display: grid;
+    }
+
+    .form {
+        margin: 0;
+    }
+
+    .cta {
+        height: 60vh;
+    }
+
+    :host ::ng-deep .p-button-login {
+        margin-bottom: 0.5rem;
+        ;
+    }
+}
+
+@media screen and (min-width: 1290px) {
+    .log {
+        flex-direction: row;
+        height: 100vh;
+    }
+
+    .form {
+        margin: 0;
+        box-shadow: none;
+    }
+
+    .form__content {
+        width: 26rem;
+    }
+
+}
+
+@media (min-width: 72rem) {
+    .form__content {
+        width: 40rem;
+        padding: 5.4rem 4rem;
+
+    }
+}
+
+:host ::ng-deep .password-input input{
+    width: 100%;
+    border-radius: 1rem;
+    padding-left: 2.5rem;
+}
+
+:host ::ng-deep .pi-lock {
+    position: absolute;
+    top: 1.4rem;
+    left: 0.6rem;
+}
+
+:host ::ng-deep .pi-user {
+    position: absolute;
+    top: 1.4rem;
+    left: 0.6rem;
+}
+
+:host ::ng-deep p-inputmask input{
+    width: 100% !important;
+}
+
+:host ::ng-deep p-inputmask{
+    width: 100% !important;
+}
+
+:host ::ng-deep input{
+    width: 100% !important;
+}
+
+:host ::ng-deep p-password .p-component.p-inputwrapper.p-input-icon-right{
+    justify-content:  end !important;
+}
+
+:host ::ng-deep p-password .p-icon-wrapper{
+    margin-right: 10px !important;
+}

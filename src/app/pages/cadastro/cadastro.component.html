@@ -1,0 +1,140 @@
+<section class="w-full flex flex-column justify-content-center align-items-center p-3 md:p-5">
+
+
+    <form action="" [formGroup]="cadastroForm" class="cadastroForm">
+        <h1 class="font-bold p-0 m-0 text-center">Dados Pessoais</h1>
+        <h3 class="font-medium p-0 m-0 w-full block mb-3 text-center">Preencha os campos abaixo para finalizar seu
+            agendamento</h3>
+
+        <div class="flex flex-column gap-2 mb-3">
+            <label htmlFor="CPF" class="font-bold">CPF</label>
+            <!-- <input pInputText id="cpf" formControlName="cpf" placeholder="000.000.000-00" /> -->
+            <p-inputMask id="cpf" [style]="{width: '100%'}" class="w-100" formControlName="cpf"
+                [mask]="'999.999.999-99'" placeholder="000.000.000-00"
+                (onBlur)="onFieldChange(cadastroForm)"></p-inputMask>
+            <div *ngIf="!cadastroForm.get('cpf')?.errors?.['cpfFound'] && cadastroForm.get('cpf')?.invalid && cadastroForm.get('cpf')?.touched && cadastroForm.get('cpf')?.errors?.['cpfInvalid'] == true"
+                class="alert alert-danger">
+                Digite um CPF válido.
+            </div>
+            <div *ngIf="cadastroForm.get('cpf')?.invalid && cadastroForm.get('cpf')?.touched && cadastroForm.get('cpf')?.errors?.['cpfFound']"
+                class="alert alert-danger">
+                CPF já cadastrado no sistema.<br />
+            </div>
+        </div>
+
+        <div class="flex flex-column gap-2 mb-3">
+            <label htmlFor="nome" class="font-bold">Nome</label>
+            <input style="text-transform: uppercase;" pInputText id="nome" formControlName="nome"
+                placeholder="Nome Completo" (blur)="onFieldChange(cadastroForm)" />
+            <div *ngIf="cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched"
+                class="alert alert-danger">
+                O nome deve ser composto de nome e sobrenome.
+            </div>
+        </div>
+
+        <div class="flex flex-column gap-2 mb-3">
+            <label htmlFor="celular" class="font-bold">Celular <span class="label-span">(digite o DDD + seu
+                    número)</span></label>
+            <div class="flex gap-2">
+                <p-inputMask id="celular" [style]="{width: '100%'}" formControlName="celular"
+                    [mask]="'(99) 9 9999-9999'" placeholder="Celular"
+                    (onBlur)="onFieldChange(cadastroForm)"></p-inputMask>
+                <!-- 
+                <button pButton pRipple label="Enviar Código"
+                    class="w-8 md:w-4 text-white bg-indigo-700 border-0 border-round-2xl hover:surface-100"></button> -->
+            </div>
+            <div *ngIf="cadastroForm.get('celular')?.invalid && cadastroForm.get('celular')?.touched"
+                class="alert alert-danger">
+                O número do telefone deve conter um prefixo mais o número com o total de 11 dígitos.
+            </div>
+        </div>
+
+        <div class="flex flex-column gap-2 mb-3">
+            <div class="flex gap-2 w-100">
+                <div style="width: 70%;">
+                    <label htmlFor="email" class="font-bold block">E-mail</label>
+                    <input style="width: 100%;" pInputText id="email" formControlName="email" placeholder="E-mail"
+                        (blur)="onFieldChange(cadastroForm)" />
+                </div>
+
+                <button style="width: 30%; height:fit-content;" pButton pRipple type="button"
+                    [disabled]="cadastroForm.get('email')?.invalid" label="Enviar código"
+                    class="p-button p-button-next mt-auto" icon="pi pi-arrow-right" iconPos="right"
+                    (click)="sendCode()"></button>
+            </div>
+
+            <div *ngIf="cadastroForm.get('email')?.invalid && cadastroForm.get('email')?.touched && !cadastroForm.get('email')?.errors?.['emailExist']"
+                class="alert alert-danger">
+                E-mail incorreto.
+            </div>
+            <div *ngIf="cadastroForm.get('email')?.errors?.['emailExist']" class="alert alert-danger">
+                E-mail já cadastrado no sistema.
+            </div>
+        </div>
+
+        <div class="flex flex-column gap-2 mb-3">
+            <label htmlFor="code" class="font-bold block">Código de confirmação</label>
+            <input type="code" class="p-inputtext-sm" formControlName="code" placeholder="0000" pInputText
+                style="text-transform: uppercase;" (blur)="onFieldChange(cadastroForm)" />
+            <!-- mensagem de erro -->
+            <div *ngIf="cadastroForm.get('code')?.invalid && cadastroForm.get('code')?.touched"
+                class="alert alert-danger">
+                Código de confirmação incorreto.
+            </div>
+        </div>
+
+        <div class="flex flex-column gap-2 mb-3">
+            <label htmlFor="nomeDaMae" class="font-bold">Nome da mãe</label>
+            <input style="text-transform: uppercase;" pInputText id="nomeDaMae" formControlName="nomeDaMae"
+                placeholder="Nome da mãe" (blur)="onFieldChange(cadastroForm)" />
+            <div *ngIf="cadastroForm.get('nomeDaMae')?.invalid && cadastroForm.get('nomeDaMae')?.touched"
+                class="alert alert-danger">
+                O nome deve ser composto de nome e sobrenome.
+            </div>
+        </div>
+
+        <div class="flex flex-column gap-2 mb-3">
+            <label htmlFor="password" class="font-bold">Senha <span class="label-span">(a senha deve ter no mínimo 8
+                    dígitos)</span></label>
+            <p-password [style]="{width: '100%'}" class="password-input" id="password" [feedback]="false"
+                [weakLabel]="'fraca'" [strongLabel]="'forte'" [toggleMask]="true" [promptLabel]="'Insira uma senha'"
+                [mediumLabel]="'Média'" formControlName="password" placeholder="Senha"
+                (onBlur)="onFieldChange(cadastroForm)">
+                <ng-template pTemplate="footer">
+                    <p-divider></p-divider>
+                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                        <li>Minimo 8 dígitos</li>
+                    </ul>
+                </ng-template>
+            </p-password>
+            <div *ngIf="cadastroForm.get('password')?.invalid && cadastroForm.get('password')?.touched"
+                class="alert alert-danger">
+                A senha deve conter, no mínimo, 1 letra maiúscula, 1 número e 8 caracteres.
+            </div>
+        </div>
+
+        <div class="flex flex-column gap-2 mb-3">
+            <label htmlFor="passwordConfirm" class="font-bold">Confirmar senha</label>
+            <p-password [style]="{width: '100%'}" class="password-input" id="passwordConfirm" [toggleMask]="true"
+                [feedback]="false" formControlName="passwordConfirm" placeholder="Confirmar senha"
+                (onBlur)="onFieldChange(cadastroForm)"></p-password>
+            <div *ngIf="cadastroForm.get('passwordConfirm')?.value != cadastroForm.get('password')?.value && cadastroForm.get('passwordConfirm')?.touched"
+                class="alert alert-danger">
+                As senhas devem ser iguais
+            </div>
+        </div>
+
+        <div class="flex gap-2 mb-4">
+            <p-checkbox formControlName="term" [binary]="true" inputId="binary" formControlName="term"
+                (onChange)="cadastroForm.get('term')?.markAsTouched(); onFieldChange(cadastroForm)"></p-checkbox>
+            <label class="w-full" for="term">Li e aceito os Termos de Adesão e à Política de Privacidade</label>
+        </div>
+        <div *ngIf="!cadastroForm.get('term')?.value && cadastroForm.get('term')?.touched" class="alert alert-danger">
+            Aceite os termos para continuar.
+        </div>
+
+        <button [disabled]="cadastroForm.invalid || !cadastroForm.get('term')?.value" (click)="register()" pButton
+            pRipple label="Finalizar cadastro"
+            class="w-full text-white bg-indigo-700 border-0 border-round-2xl"></button>
+    </form>
+</section>

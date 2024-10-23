@@ -1,0 +1,35 @@
+.label-span{
+    font-size: 13px;
+    color: #6cb1b0;
+}
+
+span, label{
+    color: #6cb1b0 !important;
+}
+
+.p-password-input{
+    width: 100% !important;
+}
+
+// only for lg screens @media
+@media (min-width: 992px) {
+    .cadastroForm{
+        width: 60vw !important;
+    }
+}
+
+p-inputmask input{
+    width: 100% !important;
+}
+
+p-inputmask{
+    width: 100% !important;
+}
+
+p-password .p-component.p-inputwrapper.p-input-icon-right{
+    justify-content:  end !important;
+}
+
+p-password .p-icon-wrapper{
+    margin-right: 10px !important;
+}

@@ -1,0 +1,64 @@
+<head class="w-full flex justify-content-center flex-column lg:flex-row relative px-6 section-list mt-2">
+    <button (click)="step = 0" [routerLink]="step == 0 ? '/home' : '/exames'"
+        class="p-button p-component p-button-outlined p-button-rounded text-indigo-700 mr-auto h-min left-0">
+        <i class="pi pi-arrow-left"></i>
+    </button>
+    <h2 class="mr-auto">{{step == 0 ? 'Exames' : selected?.subgrupo.sgr_nome +' | Exames'}}</h2>
+</head>
+
+<section class="px-6 section-list" *ngIf="step == 0">
+    <span class="p-input-icon-left w-full py-3" *ngIf="exames_servicos_filter">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText class="w-full" (input)="filter($event)" placeholder="Busque pelo nome do exame">
+    </span>
+
+    <ul class="list-none p-0 m-0" *ngIf="exames_servicos_filter && exames_servicos_filter.length > 0; else notFound">
+        <li (click)="selectItem(item)" *ngFor="let item of exames_servicos_filter"
+            class="surface-card p-3 mb-3 shadow-2 border-round-2xl hover:surface-100 cursor-pointer">
+            <div class="flex">
+                <div class="flex justify-content-between w-full align-items-start lg:px-3 flex-column lg:flex-row">
+                    <span class="text-900 text font-bold font-medium">{{item.subgrupo.sgr_nome}}</span>
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<section class="px-6 section-list" *ngIf="step == 1">
+    <span class="p-input-icon-left w-full py-3" *ngIf="selected">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText class="w-full" (input)="filterPro($event)"
+            placeholder="Busque pelo nome do procedimento">
+    </span>
+
+    <ul class="list-none p-0 m-0" *ngIf="selected && selected.exames && selected.exames.length > 0; else notFound">
+        <li *ngFor="let item of selected_exames_filter.exames" (click)="selectPro(item)"
+            class="surface-card p-3 mb-3 shadow-2 border-round-2xl hover:surface-100 cursor-pointer">
+            <div class="flex lg:flex-row flex-column gap-2 lg:gap-0">
+                <div class="flex justify-content-between w-full align-items-start lg:align-items-start lg:px-3 flex-column lg:flex-row"
+                    style="overflow-wrap: anywhere;">
+                    <span class="text-900 text font-bold font-medium mb-4 lg:mb-0">{{item.pro_nome}}</span>
+                    <div class="flex gap-4 w-full lg:w-auto">
+                        <div>
+                            <span class="block text-gray-700">Particular</span>
+                            <span class="block text-gray-700">{{item.proOnline?.Precos[1]?.PrecoProduto |
+                                valorBr}}</span>
+                        </div>
+                        <div class="lg:ml-auto border-left-1 px-3 flex justify-content-between align-items-center">
+                            <div>
+                                <span class="block text-gray-700">Cartão tudook</span>
+                                <span class="font-bold text-indigo-700">Por {{item.proCartao?.Precos[1]?.PrecoProduto |
+                                    valorBr}}</span>
+                            </div>
+                        </div>
+                        <i class="pi pi-chevron-right ml-auto lg:align-self-center"></i>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<ng-template #notFound>
+    <app-not-found></app-not-found>
+</ng-template>

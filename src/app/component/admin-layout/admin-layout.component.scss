@@ -1,0 +1,136 @@
+.nav-link {
+    font: normal normal bold 18px/30px Segoe UI;
+    color: #424242;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* Media query */
+@media (max-width: 576px) {
+    img {
+        width: 60%;
+    }
+
+    a {
+        padding-left: 0 !important;
+    }
+}
+
+.logo-ok-doutor {
+    width: 8rem;
+    cursor: pointer;
+  }
+  
+  
+  .navbar-toggler {
+    display: none;
+  }
+  
+  
+  .navbar {
+    box-shadow: 0px 2px 4px #00000029;
+    background: #fff !important;
+  }
+  
+  .navbar-dark .navbar-toggler-icon {
+    background-image: url(/assets/images/ic_menu.svg);
+  }
+  
+  .sidebar-nav ul li a {
+    font-size: 26px;
+    text-decoration: none;
+    padding: 6px 10px;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    transition: 0.5s;
+  }
+  
+  .sidebar-nav ul li a img {
+    width: 20px;
+  }
+  
+  .sidebar-nav ul li a:hover {
+    background-color: #eeeeee;
+    border-radius: 4px;
+  }
+  
+  .sidebar-nav .offcanvas {
+    width: 16rem;
+    border: none;
+    top: 57px;
+    z-index: 0;
+  }
+  
+  .sidebar-nav .offcanvas ul li a span {
+    font: normal normal normal 15px/36px Segoe UI Regular;
+    color: #707070;
+    transition: 0.5s;
+  }
+  
+  .sidebar-nav .offcanvas.show ul li a:hover span {
+    padding-left: 10px;
+  }
+  
+  .sidebar-nav .dropdown-toggle::after {
+    position: relative;
+    top: 3px;
+  }
+  
+  .bi::before,
+  [class^="bi-"]::before,
+  [class*=" bi-"]::before {
+    margin-right: 5px;
+  }
+  
+  .rodape {
+    font: 15px/36px Segoe UI Regular;
+    color: #707070;
+    text-align: center;
+    position: relative;
+    bottom: 3rem;
+  }
+  
+  :host ::ng-deep .offcanvas-backdrop {
+    left: auto !important;
+    right: 0 !important;
+    width: 38vw !important;
+  }
+  
+  @media (min-width: 991px) {
+    .offcanvas-start {
+        visibility: visible;
+        transform: translateX(0px);
+    }
+  }
+  
+  /* Responsive Breakpoints */
+  @media screen and (max-width: 900px) {
+    .navbar-toggler {
+      display: block;
+    }
+  }
+
+  .sidebarAdmin{
+    min-height: 93.3vh;
+    background-color: #1f3267;
+    width: 18vw;
+  }
+
+  .contentAdmin{
+    min-height: 93.3vh;
+    background-color: #f5f5f5;
+    width: 82vw;
+  }
+
+  .admin-card {
+    width: 100%;
+    min-height: 80vh;
+  }
+
+  :host ::ng-deep .p-card{
+    height: 100%;
+  }

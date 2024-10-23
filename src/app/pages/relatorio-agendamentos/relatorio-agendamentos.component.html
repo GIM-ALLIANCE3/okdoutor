@@ -1,0 +1,66 @@
+<div class="p-4 border-round">
+
+    <div class="lg:block sm:block gap-2 flex d-xl-flex flex-xl-row px-2 surface-0 surface-border relative lg:static">
+        <div class="flex gap-2 flex-wrap">
+            <div class="field" [style]="{'display': 'inline-flex', 'align-items': 'center'}">
+                <label for="de" class="mr-2">De</label>
+                <input [(ngModel)]="de" type="date" id="de">
+            </div>
+
+            <div class="field" [style]="{'display': 'inline-flex', 'align-items': 'center'}">
+                <label for="ate" class="mr-2">Até</label>
+                <input [(ngModel)]="ate" type="date" id="ate">
+            </div>
+            <p-button [disabled]="!de || !ate" (onClick)="filterData()" label="Filtrar" icon="pi pi-filter"
+                styleClass="p-button-outlined p-button-raised p-button-filter border-gray-200 text-gray-200 shadow-none"></p-button>
+            @if(filteredAgendamentos.length !== 0){
+            <p-button [disabled]="!de || !ate" (onClick)="clearFilter()" label="Limpar" icon="pi pi-trash"
+                severity="danger"
+                styleClass="p-button-outlined p-button-raised p-button-filter border-gray-200 text-gray-200 shadow-none"></p-button>
+            }
+        </div>
+
+        <div
+            class="lg:flex lg:align-items-center select-none lg:flex-row gap-3 lg:border-none right-0 lg:shadow-none relative lg:static">
+
+        </div>
+
+
+    </div>
+    @if(filteredAgendamentos.length !== 0){
+    <p-table [paginator]="true" [rows]="10" [value]="filteredAgendamentos" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Nome do Paciente</th>
+                <th>Data do Agendamento</th>
+                <th>Data de Criação</th>
+                <th>Horário</th>
+                <th>Procedimento</th>
+                <th>Clínica</th>
+                <th>Médico</th>
+                <th>Status Agendamento</th>
+                <th>Pagamento</th>
+                <th>Valor</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-agendamento>
+            <tr>
+                <td class="cursor-pointer">{{ agendamento.dados.data.nome_paciente }}</td>
+                <td class="cursor-pointer">{{ agendamento.dados.horario.dataFormatada }}</td>
+                <td class="cursor-pointer">{{ formatData(agendamento.createdAt) }}</td>
+                <td class="cursor-pointer">{{ agendamento.dados.horario.formatedHour }}</td>
+                <td class="cursor-pointer">{{ agendamento.dados.procedimento.pro_nome ||
+                    agendamento.dados.procedimento.NomeRecurso }}</td>
+                <td class="cursor-pointer">{{ agendamento.dados.clinica.name }}</td>
+                <td class="cursor-pointer">{{ agendamento.dados.medico.name }}</td>
+                <td class="cursor-pointer">{{ agendamento.schedule.status === '200' ? 'Agendado' : 'Pendente' }}</td>
+                <td class="cursor-pointer">{{ agendamento?.status === 2 ? 'Pago' : 'Pendente' }}</td>
+                <td class="cursor-pointer">{{ agendamento.dados.procedimento.pro.Precos[0].PrecoProduto | valorBr }}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    }@else {
+    <app-not-found></app-not-found>
+    }
+</div>

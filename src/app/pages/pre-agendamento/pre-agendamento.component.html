@@ -1,0 +1,271 @@
+<section class="px-5 section-agendamento">
+
+  <head class="w-full flex justify-content-center flex-column lg:flex-row relative my-2">
+    <button pRipple [routerLink]="beforePage"
+      class="p-button p-component p-button-outlined p-button-rounded text-indigo-700 mr-auto h-min left-0">
+      <i class="pi pi-arrow-left"></i>
+    </button>
+    <h1 *ngIf="!isMedic" class="font-bold text-center mb-3 mr-auto">
+      {{ object.pro_nome }}
+    </h1>
+    <div *ngIf="isMedic" class="mr-auto flex flex-column justify-content-center align-items-center">
+      <b>{{ nomeMedico | doutor:medicCRM | async }}</b>
+      <div class="flex gap-2 text-center justify-content-center align-items-center">
+        <b class="text-gray-600">{{ object.NomeRecurso }}</b>
+        <span class="text-gray-300"> | </span>
+        <span (click)="visible = true" class="text-gray-300 cursor-pointer">Veja Mais</span>
+      </div>
+    </div>
+  </head>
+
+  <div class="w-full flex justify-content-center flex-column align-items-start lg:align-items-center">
+    <span class="font-bold mb-3 text-start lg:text-center">Filtrar por:</span>
+    <div class="">
+      <div class="grid text-center justify-content-center m-0 botoes-filtro gap-3">
+        <div class="col p-0 mb-3">
+          <button pButton pRipple label="DATA" (click)="selected = 0" [ngClass]="{
+              'bg-bluishgreen-200': selected == 0,
+              'text-white': selected == 0
+            }"
+            class="p-button-outlined w-10rem text-gray-200 border-gray-200 border-round-2xl hover:surface-100"></button>
+        </div>
+        <!-- <div class="col md:col-3 lg:col-3 p-0 mb-3">
+                    <button pButton pRipple label="CLÍNICA" (click)="selected = 1"
+                        [ngClass]="{'bg-bluishgreen-200': selected == 1, 'text-white': selected == 1}"
+                        class="p-button-outlined w-10rem text-gray-200 border-gray-200 border-round-2xl hover:surface-100"></button>
+                </div> -->
+        <div class="col p-0 mb-3">
+          <div class="relative w-min badge-div">
+            <button [disabled]="false" pButton pRipple label="PERNAMBUCO" (click)="selected = 2" [ngClass]="{
+                'bg-bluishgreen-200': selected == 2,
+                'text-white': selected == 2
+              }"
+              class="p-button-outlined w-10rem text-gray-200 border-gray-200 border-round-2xl hover:surface-100"></button>
+            <p-badge [style]="{
+                position: 'absolute',
+                right: '-10%',
+                top: '-10%',
+                background: '#1f3267'
+              }" [value]="'PE'"></p-badge>
+          </div>
+        </div>
+        <div class="col p-0 mb-3 relative mt-4 lg:mt-0" style="top: -27px">
+          <h5 class="block p-0 m-0 mb-2">Onde quer ser atendido?</h5>
+          <p-dropdown (onChange)="empresaFilter()" [(ngModel)]="selectedEmpresa" optionLabel="NomeFantasia"
+            appendTo="body" class="w-10rem dropcity" [style]="{ 'border-radius': '1rem' }"
+            [options]="empresas"></p-dropdown>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-full">
+    <div class="grid justify-content-center">
+      <div class="col-12 lg:col-5 p-3">
+        <span class="font-bold mb-3 block mb-3">Escolha a data</span>
+        <div class="py-3 border-round-2xl shadow-2 flex align-items-center surface-card">
+          <p-carousel [value]="!isMedic ? getNext30Days() : medicDays" [numVisible]="10" class="w-full" [numScroll]="3"
+            [circular]="false" [responsiveOptions]="responsiveOptions" [showIndicators]="false">
+            <ng-template let-day pTemplate="item">
+              <div pRipple class="border-gray-200 border-1 border-round-2xl md:w-6rem h-6rem cursor-pointer day-card"
+                [ngClass]="{
+                  'bg-bluishgreen-200': selectedDate == day.id,
+                  'text-white': selectedDate == day.id,
+                  'hover:surface-100': selectedDate != day.id
+                }" (click)="
+                  selectedDate = day.id;
+                  selectedDay = day;
+                  !isMedic ? getClinicList() : getAvailableHoursFromDate(day);
+                  selectedHour = undefined;
+                  selectedMedic = undefined
+                ">
+                <div pRipple class="flex justify-content-center align-items-center h-full flex-column">
+                  <span [ngClass]="{ 'text-white': selectedDate == day.id }" class="text-900 text-xl font-bold">{{
+                    day.day }}</span>
+                  <span [ngClass]="{ 'text-white': selectedDate == day.id }" class="text-900 text-xl">{{ day.month
+                    }}</span>
+                  <span [ngClass]="{ 'text-white': selectedDate == day.id }" class="text-900">{{ day.dayOfWeek }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </p-carousel>
+        </div>
+        <ng-container *ngIf="clinicList && clinicList.length > 0; else notFound">
+          <span class="font-bold block my-3">Escolha a clínica</span>
+          <ng-container *ngFor="let item of clinicList">
+            <div pRipple
+              class="p-3 border-round-2xl shadow-2 flex flex-column align-items-start surface-card mb-2 cursor-pointer"
+              [ngClass]="{
+                'bg-bluishgreen-200':
+                  selectedClinic == getIndexByObject(clinicList, item),
+                'text-white':
+                  selectedClinic == getIndexByObject(clinicList, item),
+                'hover:surface-100':
+                  selectedClinic != getIndexByObject(clinicList, item)
+              }" (click)="
+                selectedClinic = getIndexByObject(clinicList, item);
+                selectedClinicData = item;
+                scrollDownByOne()
+              ">
+              <h1>{{ item.name }}</h1>
+              <span class="block">{{
+                item.name === "AV. CAXANGÁ"
+                ? "Av. Caxangá, 2351 - Cordeiro, Recife - PE, 50721-000"
+                : "Av. Recife, 712 - Areias, Recife - PE, 50110-727"
+                }}</span>
+            </div>
+            <div *ngIf="selectedClinic == getIndexByObject(clinicList, item)"
+              class="p-3 bg-white border-round-2xl fadein animation-duration-1000">
+              <span class="font-bold mb-3 block mb-3">Escolha o médico e a hora</span>
+              <div *ngFor="let medic of item.medicList" class="mt-3">
+                <div class="flex justify-content-between">
+                  <span>{{ medic.name | doutor:medic.crm | async }}</span>
+                  <span class="fw-bold">CRM - {{ medic.crm }}</span>
+                </div>
+                <p-divider></p-divider>
+                <div class="flex gap-2 flex-wrap">
+                  <button pRipple (click)="selectedHour = hour; selectedMedic = medic"
+                    *ngFor="let hour of medic.hourList" pButton class="p-button {{
+                      hour === selectedHour && medic.crm == selectedMedic.crm
+                        ? 'bg-bluishgreen-200 text-white border-0'
+                        : 'bg-white text-black-alpha-90 border-black-alpha-90 border-1'
+                    }} border-round-2xl">
+                    {{ hour.formatedHour }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+      <div class="col-6 md:col-6 lg:col-3 p-3 hidden md:block cardPrecos">
+        <div class="p-3 border-round shadow-2 flex align-items-center surface-card flex-column gap-3">
+          <div
+            class="border-round-2xl border-1 border-gray-200 w-full flex justify-content-between align-items-center p-4 flex-column md:flex-row">
+            <span>Exclusivo Cartão tudook</span>
+            <div class="flex gap-1 justify-content-center align-items-center">
+              <h4 class="font-bold m-0 p-0">
+                {{ object.proCartao.Precos[1].PrecoProduto | valorBr }}
+              </h4>
+              <p-badge [style]="{
+                  background: '#1f3267',
+                  'border-radius': '1rem',
+                  padding: '0 0.8rem'
+                }" [value]="
+                  calcularDesconto(
+                    object.pro.Precos[1].PrecoProduto,
+                    object.proCartao.Precos[1].PrecoProduto
+                  )
+                "></p-badge>
+            </div>
+          </div>
+
+          <div
+            class="border-round-2xl border-1 border-gray-200 w-full flex justify-content-between align-items-center p-4 flex-column md:flex-row">
+            <span>Pagando Online</span>
+            <div class="flex gap-1 justify-content-center align-items-center">
+              <h4 class="font-bold m-0 p-0">
+                {{ object.proOnline.Precos[1].PrecoProduto | valorBr }}
+              </h4>
+              <p-badge [style]="{
+                  background: '#1f3267',
+                  'border-radius': '1rem',
+                  padding: '0 0.8rem'
+                }" [value]="
+                  calcularDesconto(
+                    object.pro.Precos[1].PrecoProduto,
+                    object.proOnline.Precos[1].PrecoProduto
+                  )
+                "></p-badge>
+            </div>
+          </div>
+
+          <div
+            class="border-round-2xl border-1 border-gray-200 w-full flex justify-content-between align-items-center p-4 flex-column md:flex-row">
+            <span>Pagando na Clínica</span>
+            <div class="flex gap-1 justify-content-center align-items-center">
+              <h4 class="font-bold my-0 p-0 md:mr-0">
+                {{ object.pro.Precos[1].PrecoProduto | valorBr }}
+              </h4>
+            </div>
+          </div>
+
+          <div class="w-full flex justify-content-center align-items-center">
+            <button [disabled]="!selectedHour" (click)="changeRoute('confirmar-agendamento')" pButton pRipple
+              label="Prosseguir" class="w-full text-white bg-indigo-700 border-0 border-round-2xl"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- mobile fixed -->
+<div class="bg-white shadow-2 border-top-radius-2xl text-sm flex flex-column gap-3 bottom-0 fixed block md:hidden">
+  <div class="flex gap-2">
+    <div
+      class="border-round-2xl border-1 border-gray-200 w-full flex justify-content-between align-items-center p-1 flex-column md:flex-row">
+      <span>Exclusivo Cartão tudook:</span>
+      <div class="flex gap-1 justify-content-center align-items-center">
+        <h4 class="font-bold m-0 p-0"> {{ object.proCartao.Precos[1].PrecoProduto | valorBr }}</h4>
+        <p-badge [style]="{
+            background: '#1f3267',
+            'border-radius': '1rem',
+            padding: '0 0.8rem'
+          }" [value]="calcularDesconto(
+                    object.pro.Precos[1].PrecoProduto,
+                    object.proCartao.Precos[1].PrecoProduto
+                  )"></p-badge>
+      </div>
+    </div>
+
+    <div
+      class="border-round-2xl border-1 border-gray-200 w-full flex justify-content-between align-items-center p-1 flex-column md:flex-row">
+      <span>Pagando Online:</span>
+      <div class="flex gap-1 justify-content-center align-items-center">
+        <h4 class="font-bold m-0 p-0">{{ object.proOnline.Precos[1].PrecoProduto | valorBr }}</h4>
+        <p-badge [style]="{
+            background: '#1f3267',
+            'border-radius': '1rem',
+            padding: '0 0.8rem'
+          }" [value]="calcularDesconto(
+                    object.pro.Precos[1].PrecoProduto,
+                    object.proOnline.Precos[1].PrecoProduto
+                  )"></p-badge>
+      </div>
+    </div>
+
+    <div
+      class="border-round-2xl border-1 border-gray-200 w-full flex justify-content-between align-items-start p-1 flex-column md:flex-row">
+      <span>Pagando na Clínica:</span>
+      <div class="flex gap-1 justify-content-start align-items-start">
+        <h4 class="font-bold my-0 p-0 md:mr-7 text-start">{{ object.pro.Precos[1].PrecoProduto | valorBr }}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="w-full flex justify-content-center align-items-center">
+    <button (click)="changeRoute('confirmar-agendamento')" pButton pRipple label="Prosseguir"
+      class="w-full text-white bg-indigo-700 border-0 border-round-2xl"></button>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <app-not-found></app-not-found>
+</ng-template>
+
+<p-dialog [(visible)]="visible" [responsive]="true" [breakpoints]="{ '2000px': '85vw' }">
+  <div>
+    <h1 class="font-bold p-0 m-0 text-center">Informações do médico</h1>
+    <p-divider></p-divider>
+
+    <span class="md:px-4 block text-justify" [innerHTML]="
+        medicCurriculum?.description || 'Nenhuma informação encontrada'
+      ">
+    </span>
+
+    <div class="w-full justify-content-center align-items-center my-3 flex">
+      <button pButton pRipple label="Fechar"
+        class="text-white bg-gray-400 border-0 border-round-3xl hover:surface-200 w-14rem"
+        (click)="visible = false"></button>
+    </div>
+  </div>
+</p-dialog>

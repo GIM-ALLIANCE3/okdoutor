@@ -1,0 +1,124 @@
+<div class="min-h-screen flex flex-column surface-ground">
+    <div class="surface-overlay py-3 px-6 flex align-items-center justify-content-between relative lg:static shadow-3"
+        style="min-height: 80px">
+
+        @if(user){
+        <a pRipple (click)="sidebarVisible = true" class="cursor-pointer hidden lg:block text-700 mx-3">
+            <i class="pi pi-bars text-4xl"></i>
+        </a>
+        }
+        <img src="assets/images/logo_ok_doutor_email.png" alt="Image" height="40" class="mr-0 lg:mr-6">
+
+        <a pRipple class="cursor-pointer block lg:hidden text-700" pStyleClass="@next" enterClass="hidden"
+            leaveToClass="hidden" [hideOnOutsideClick]="true">
+            <i class="pi pi-bars text-4xl"></i>
+        </a>
+
+        <div
+            class="align-items-center flex-grow-1 justify-content-end hidden lg:flex absolute lg:static w-full surface-overlay left-0 top-100 z-1 shadow-2 lg:shadow-none">
+            <ul
+                class="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row border-top-1 surface-border lg:border-top-none">
+                <li class="mr-auto">
+                    <span class="block font-bold text-indigo-700">Versão 0.3.6</span>
+                </li>
+                <li>
+                    <a pRipple
+                        class="flex px-6 p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100  font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                        <p-button label="(81) 2011-0400"
+                            styleClass="p-button-outlined p-button-rounded text-indigo-700"></p-button>
+                    </a>
+                </li>
+                <li class="mr-auto lg:hidden" routerLink="home">
+                    <a pRipple
+                        class="flex gap-2 px-6 p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                        <i class="pi pi-home text-base lg:text-2xl mr-2 lg:mr-0 text-indigo-700"></i>
+                        <span class="block font-bold text-indigo-700">Início</span>
+                    </a>
+                </li>
+                @if(!user){
+                <li routerLink="login">
+                    <a pRipple
+                        class="flex gap-2 px-6 p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                        <i class="pi pi-sign-in text-base lg:text-2xl mr-2 lg:mr-0 text-indigo-700"></i>
+                        <span class="block font-bold text-indigo-700">Entrar</span>
+                    </a>
+                </li>
+                }
+                <li class="mr-auto lg:hidden" routerLink="cadastro">
+                    <a pRipple
+                        class="flex gap-2 px-6 p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                        <i class="pi pi-user-plus text-base lg:text-2xl mr-2 lg:mr-0 text-indigo-700"></i>
+                        <span class="block font-bold text-indigo-700">Cadastrar</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="flex flex-column flex-auto">
+        <div class="surface-section flex-auto">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+
+<p-sidebar [(visible)]="sidebarVisible" [showCloseIcon]="false" class="sidebarMenu">
+    <div class="flex justify-content-center gap-3 align-items-center border-gray-100 border-top-1 border-bottom-1 py-3">
+        <i class="pi pi-times font-bold cursor-pointer" (click)="sidebarVisible = false"></i>
+        <div *ngIf="!user">
+            <p class="m-0">Olá <b>seja bem-vindo :)</b></p>
+            <span>Entre na sua conta!</span>
+        </div>
+        <div *ngIf="user">
+            <p class="m-0">Olá {{user.userData.nome}} <b>seja bem-vindo :)</b></p>
+        </div>
+    </div>
+    <div class="px-5">
+        <ul
+            class="list-none p-0 m-0 flex lg:align-items-center select-none flex-column border-top-1 surface-border lg:border-top-none w-min gap-2">
+            <li class="mr-auto" routerLink="home" (click)="sidebarVisible = false">
+                <a pRipple
+                    class="flex gap-2 px-6 p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                    <i class="pi pi-home text-base lg:text-2xl mr-2 lg:mr-0 text-indigo-700"></i>
+                    <span class="block font-bold text-indigo-700">Início</span>
+                </a>
+            </li>
+            @if(user){
+            <li class="mr-auto" (click)="sidebarVisible = false" routerLink="meus-agendamentos">
+                <a pRipple
+                    class="flex gap-2 px-6 p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                    <i class="pi pi-calendar text-base lg:text-2xl mr-2 lg:mr-0 text-indigo-700"></i>
+                    <span class="block font-bold text-indigo-700">Meus Agendamentos</span>
+                </a>
+            </li>
+            }
+            @if(!user){
+            <li class="mr-auto" (click)="sidebarVisible = false" routerLink="login">
+                <a pRipple
+                    class="flex gap-2 px-6 p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                    <i class="pi pi-sign-in text-base lg:text-2xl mr-2 lg:mr-0 text-indigo-700"></i>
+                    <span class="block font-bold text-indigo-700">Entrar</span>
+                </a>
+            </li>
+            }
+            @if(user){
+            <li class="mr-auto" (click)="sidebarVisible = false" (click)="logout()">
+                <a pRipple
+                    class="flex gap-2 px-6 p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                    <i class="pi pi-sign-out text-base lg:text-2xl mr-2 lg:mr-0 text-indigo-700"></i>
+                    <span class="block font-bold text-indigo-700">Sair</span>
+                </a>
+            </li>
+            }
+            @if(!user){
+            <li class="mr-auto" (click)="sidebarVisible = false" routerLink="cadastro">
+                <a pRipple
+                    class="flex gap-2 px-6 p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-colors transition-duration-150">
+                    <i class="pi pi-user-plus text-base lg:text-2xl mr-2 lg:mr-0 text-indigo-700"></i>
+                    <span class="block font-bold text-indigo-700">Cadastrar</span>
+                </a>
+            </li>
+            }
+        </ul>
+    </div>
+</p-sidebar>

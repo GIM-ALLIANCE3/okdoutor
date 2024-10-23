@@ -1,0 +1,207 @@
+<head class="w-full flex justify-content-center flex-column lg:flex-row relative px-6 section-list mt-2">
+    <button (click)="edit()"
+        class="p-button p-component p-button-outlined p-button-rounded text-indigo-700 mr-auto h-min left-0">
+        <i class="pi pi-arrow-left"></i>
+    </button>
+</head>
+<section class="flex w-full h-full justify-content-center flex-column align-items-center px-3 confirmar-agendamento"
+    *ngIf="step === 0">
+    <h1 class="font-bold p-0 mt-4 text-center" style="color: #707070;">Confirme seu agendamento</h1>
+
+    <div class="my-1 lg:my-4 md:w-30rem">
+        <p-card class="p-3 md:w-30rem">
+
+            <div class="flex w-full justify-content-between">
+                <span class="font-bold">CONSULTA</span>
+
+                <div style="color: #4EA19E;" (click)="edit()"
+                    class="flex justify-content-center align-items-center gap-2 cursor-pointer">
+                    <span>Editar</span>
+                    <i style="color: #4EA19E;" class="pi pi-user-edit"></i>
+                </div>
+            </div>
+
+
+            <span class="block">{{dados.medico.name | doutor:dados.medico.crm | async}}</span>
+
+            <div class="flex align-items-center gap-2 my-3">
+                <span class="font-bold">
+                    PACIENTE
+                </span>
+                <p-badge [style]="{background: '#1f3267', 'border-radius': '1rem', 'padding': '0 0.8rem'}"
+                    [value]="'Você'"></p-badge>
+            </div>
+
+            <h1 class="p-0 m-0 font-medium">
+                {{user.userData.nome}}
+            </h1>
+            <span class="block">CPF: {{user.userData.cpf | formatCpf}}</span>
+
+            <div class="my-3">
+                <span class="font-bold">CLÍNICA</span>
+                <h1 class="block font-medium">{{dados.clinica.name}}</h1>
+                <span class="block">{{this.dados.clinica.address}}</span>
+            </div>
+
+            <div class="my-3">
+                <h1 class="block font-medium">Informações sobre preparo</h1>
+                <div>
+                    <div class="flex justify-content-start align-items-center">
+                        <button (click)="loading.notify('Atenção!', 'Função em construção')" pButton pRipple
+                            label="Clique aqui para visualizar"
+                            class="text-white bg-indigo-700 border-0 border-round-3xl hover:surface-200 px-7"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-content-between my-3">
+                <div>
+                    <span class="font-bold block">DATA</span>
+                    <h1 class="font-normal">{{dados.horario.dataFormatada}}</h1>
+                </div>
+
+                <div>
+                    <span class="font-bold block">HORA</span>
+                    <h1 class="font-normal">{{dados.horario.formatedHour}}H</h1>
+                </div>
+            </div>
+
+            <div class="hidden md:block">
+                <div class="w-full flex justify-content-center align-items-center">
+                    <button (click)="createAgendamento()" pButton pRipple label="Confirmar"
+                        class="w-full text-white bg-indigo-700 border-0 border-round-3xl hover:surface-200"></button>
+                </div>
+            </div>
+        </p-card>
+
+        <p-card class="hover:shadow-7 cursor-pointer" (click)="visible = true">
+            <div class="w-full text-center h-min">
+                <span class="font-bold block">Mais informações</span>
+            </div>
+        </p-card>
+
+    </div>
+</section>
+
+<!-- mobile fixed button -->
+<div class="fixed bottom-0 md:hidden confirm-button">
+    <div class="w-screen flex justify-content-center align-items-center">
+        <button (click)="createAgendamento()" pButton pRipple label="Confirmar"
+            class="text-white bg-indigo-700 border-0 border-round-top-3xl hover:surface-200"></button>
+    </div>
+</div>
+
+<section
+    class="flex w-full h-full justify-content-center flex-column align-items-center px-3 animate__fadeIn animate__animated"
+    *ngIf="step === 1">
+    <h1 class="font-bold p-0 mt-4 text-center">Agendamento confirmado.</h1>
+    <div class="my-4 md:w-30rem flex flex-column gap-5">
+        <p-card class="md:w-30rem" styleClass="border-round-3xl">
+            <div class="md:p-4">
+                <div class="w-full">
+                    <span class="font-bold block border-bottom-1">Olá, {{user.userData.nome}}</span>
+                </div>
+                <p-divider></p-divider>
+                <span class="block text-center">
+                    Agora escolha abaixo como deseja pagar.
+                </span>
+                <p-confirmDialog></p-confirmDialog>
+                <div class="flex justify-content-between align-items-center my-3 border-1 border-round-2xl p-3 new-button"
+                    style="background-color: #1f3267;" (click)="confirm($event)">
+                    <span class="text-white">Para quem possui <b>cartão tudook</b></span>
+
+                    <div class="flex justify-content-center align-items-center gap-2 text-white">
+                        <span style="border-bottom-left-radius: 0;" class="font-bold">
+                            {{dados?.object?.proCartao.Precos[1].PrecoProduto | valorBr}}</span>
+                        <div style="background: #408f8d; color: white; border-bottom-left-radius: 0 !important;"
+                            class="border-round-2xl px-2 py-1">
+                            <span>{{'-'+calcularDesconto(dados?.object?.pro.Precos[1].PrecoProduto,
+                                dados?.object?.proCartao.Precos[1].PrecoProduto)}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-content-between align-items-center my-3 border-1 border-round-2xl p-3 new-button"
+                    (click)="assinatura ? loading.notify('Atenção!', 'Encontramos uma assinatura na sua conta, você será redirecionado para fazer o pagamento com desconto Cartao Tudo OK!', '/pagamento' ) : changeRoute('/pagamento')">
+                    <span>Pagar antecipado online</span>
+
+                    <div class="flex justify-content-center align-items-center gap-2">
+                        <span style="border-bottom-left-radius: 0;" class="font-bold">
+                            {{dados?.object?.proOnline.Precos[1].PrecoProduto | valorBr}}</span>
+                        <p-badge [style]="{background: '#1f3267', 'border-radius': '1rem'}"
+                            [value]="'-'+calcularDesconto(dados?.object?.pro.Precos[1].PrecoProduto, dados?.object?.proOnline.Precos[1].PrecoProduto)"
+                            severity="danger"></p-badge>
+                    </div>
+                </div>
+
+                <div class="flex justify-content-between align-items-center my-3 border-1 border-round-2xl p-3 new-button"
+                    (click)="changeRoute('/meus-agendamentos')">
+                    <span>Pagar na clínica</span>
+
+                    <div class="flex justify-content-center align-items-center gap-2">
+                        <span style="border-bottom-left-radius: 0;" class="font-bold">
+                            {{dados?.object?.pro.Precos[1].PrecoProduto | valorBr}}</span>
+                    </div>
+                </div>
+
+                <!-- <button (click)="changeRoute('pagamento')" pButton pRipple label="Pague com desconto"
+                    class="w-full p-button-outlined p-button text-indigo-700 border-1 py-3 border-indigo-700 border-round-2xl hover:surface-200"></button> -->
+
+                <div class="text-center my-3" style="font-size: 13px;">
+                    <span class="block">Até <b>6x sem juros</b> no catrão de crédito.</span>
+                    <span>Até <b>12x</b> no cartão de créd. para cliente <b>tudook!</b></span>
+                    <div class="flex justify-content-center align-items-center gap-1">
+                        <img src="assets/images/pix.svg" alt="" srcset="">
+                        <span class="block"><b>PIX</b> seguro e protegido pela CIELO</span>
+                    </div>
+
+                    <div class="flex justify-content-center align-items-center gap-2 my-3">
+                        <span class="block"><b>Aceitamos</b></span>
+                        <img src="assets/images/cards.svg" alt="" srcset="">
+                    </div>
+
+                </div>
+            </div>
+        </p-card>
+    </div>
+
+</section>
+
+<p-dialog [(visible)]="visible" [responsive]="true" [breakpoints]="{ '2000px': '85vw' }">
+    <div>
+        <h1 class="font-bold p-0 m-0 text-center">Orientações</h1>
+        <p-divider></p-divider>
+
+        <span class="md:px-4 block text-justify">
+            Recomendamos aos pacientes chegar com 20min de antecedência do horário agendado para garantir o atendimento
+            por hora prevista;
+            <br>
+            <br>
+            No caso de haver necessidade de retorno, definido pelo médico, a consulta de retorno deve
+            ser feita em no máximo 30 dias após a consulta inicial. Pode agendar através dos canais: clinicasim.com,
+            chat online no aplicativo, whatsapp ou telefone 0800-357-6060.
+            <br>
+            <br>
+            Lembrando que os agendamentos de consultas de
+            retorno devem ser realizados o mais breve possível, pois o prazo depende dos dias disponíveis para
+            atendimento do médico na unidade SiM onde a consulta inicial foi realizada. 
+            <br>
+            <br>
+            <b>Atenção:</b> As especialidades de
+            Fonoaudiologia, Psicologia, Psiquiatria e Pré Natal, assim como agendas com valores diferenciados (R$ 30,00
+            e R$45,00), não possuem o benefício do retorno gratuito;
+            <br>
+            <br>
+            O Retorno das consultas de pediatria para pacientes
+            de até 1 (um) ano de idade só serão agendados após solicitação expressa do médico ao time da unidade onde
+            ocorreu a consulta.
+        </span>
+
+        <div class="w-full justify-content-center align-items-center my-3 flex">
+            <button style="background-color: #4ea19e;" pButton pRipple label="Ok, entendi."
+                class="text-white border-0 border-round-3xl hover:surface-200 w-14rem"
+                (click)="visible = false"></button>
+        </div>
+    </div>
+
+</p-dialog>

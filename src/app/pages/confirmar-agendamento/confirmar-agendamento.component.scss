@@ -1,0 +1,37 @@
+h1 {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.gradient-card div {
+    background: transparent;
+}
+
+.gradient-card .p-card-body {
+    background: #a19b9b linear-gradient(180deg, #FFFFFF 0%, #F5F5F58A 100%) 0% 0% no-repeat padding-box !important;
+}
+
+// only for mobile
+@media (max-width: 576px) {
+
+}
+
+.confirmar-agendamento  .p-card .p-card-content{
+   padding: 0 !important;
+}
+
+.confirm-button button{
+    width: 90vw !important;
+}
+
+.new-button{
+    background: #408f8d;
+    color: white;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.new-button:hover{
+    background: #295c5a !important;
+    color: white;
+}

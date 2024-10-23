@@ -1,0 +1,61 @@
+<nav class="navbar fixed-top navbar-expand-lg bg-light relative lg:static">
+    <div class="container-fluid px-5 flex justify-content-between align-items-center w-100">
+        <div class="mr-0 lg:mr-8 align-self-center py-2">
+            <img src="assets/images/logo_ok_doutor_email.png" alt="logo-ok-doutor">
+        </div>
+
+        <div class="flex-grow-1 justify-content-between lg:flex absolute lg:static w-full left-0 left-50 z-1">
+            <ul class="list-none p-0 m-0 flex select-none flex-column lg:flex-row gap-2">
+                <li class="lg:flex lg:align-items-end">
+                    <a pRipple
+                        class="border-round-top flex align-items-center px-6 lg:px-6 font-medium cursor-pointer transition-colors transition-duration-150">
+                    </a>
+                </li>
+                <!-- <a class="nav-link active" aria-current="page">{{ this.nameScreen }}</a> -->
+            </ul>
+        </div>
+        <div class="d-none d-md-block text-nowrap">
+            <span>versão: 0.3.6P</span>
+        </div>
+    </div>
+</nav>
+<div class="flex">
+    <div class="sidebarAdmin">
+        <ul class="list-none p-3 m-0 mt-4">
+            <li>
+                <ul class="list-none p-0 m-0 overflow-hidden mt-5">
+                    <li routerLinkActive="active" routerLink="/admin/medicos">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3  border-round text-white-100 hover:text-bluegray-50
+                        transition-duration-150 transition-colors">
+                            <i class="pi pi-user mr-2 text-white"></i>
+                            <span class="font-medium titleSidebar label-telas text-white"
+                                routerLinkActive="active">Lista de
+                                Médicos</span>
+                        </a>
+                    </li>
+                    <li routerLinkActive="active" routerLink="/admin/relatorio-agendamentos">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3  border-round text-white-100 hover:text-bluegray-50
+                        transition-duration-150 transition-colors">
+                            <i class="pi pi-user mr-2 text-white"></i>
+                            <span class="font-medium titleSidebar label-telas text-white"
+                                routerLinkActive="active">Relatório agendamentos</span>
+                        </a>
+                    </li>
+                    <li (click)="logout()">
+                        <a pRipple class="flex align-items-center cursor-pointer p-3  border-round text-bluegray-100 hover:text-bluegray-50
+                        transition-duration-150 transition-colors">
+                            <i class="pi pi-sign-out mr-2 text-white"></i>
+                            <span class="font-medium">Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="contentAdmin flex justify-content-center align-content-center w-100 h-100 p-5">
+        <p-card class="admin-card flex flex-column gap-3">
+            <router-outlet></router-outlet>
+        </p-card>
+    </div>
+</div>
